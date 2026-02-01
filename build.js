@@ -65,9 +65,23 @@ async function main() {
     for (const file of files) {
         const content = fs.readFileSync(path.join(MEMORY_DIR, file), 'utf-8');
         
-        // SECURITY FILTER: Check for sensitive keywords
-        if (content.includes('CREDENTIALS') || content.includes('PRIVATE_KEY') || content.includes('password') || content.includes('secret')) {
-            console.warn(`⚠️ Skipping ${file}: Contains sensitive keywords.`);
+        // SECURITY FILTER: Check for sensitive keywords and patterns
+        const sensitivePatterns = [
+            /CREDENTIALS/i,
+            /PRIVATE_KEY/i,
+            /password/i,
+            /secret/i,
+            /sk-[a-zA-Z0-9]{20,}/,  // OpenAI/Stripe style keys
+            /ghp_[a-zA-Z0-9]{20,}/, // GitHub tokens
+            /moltbook_sk_/,
+            /xox[baprs]-/,          // Slack tokens
+            /-----BEGIN RSA PRIVATE KEY-----/
+        ];
+
+        const hasSensitiveData = sensitivePatterns.some(pattern => pattern.test(content));
+
+        if (hasSensitiveData) {
+            console.warn(`⚠️ Skipping ${file}: Contains sensitive data (matched pattern).`);
             continue;
         }
 
