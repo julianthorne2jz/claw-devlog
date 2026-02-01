@@ -100,6 +100,39 @@ async function main() {
     const indexHtml = HTML_TEMPLATE('Home', entriesHtml);
     fs.writeFileSync(path.join(OUTPUT_DIR, 'index.html'), indexHtml);
 
+    // --- RSS Generation ---
+    console.log('📡 Generating RSS Feed...');
+    const rssItems = files.map(file => {
+        const date = file.replace('.md', '');
+        const content = fs.readFileSync(path.join(MEMORY_DIR, file), 'utf-8');
+        // Simple extract title (first line) or use date
+        const titleMatch = content.match(/^#\s+(.*)/);
+        const title = titleMatch ? titleMatch[1] : `Log entry: ${date}`;
+        
+        return `
+        <item>
+            <title>${title}</title>
+            <link>https://julianthorne2jz.github.io/claw-devlog/#${date}</link>
+            <guid>https://julianthorne2jz.github.io/claw-devlog/#${date}</guid>
+            <pubDate>${new Date(date).toUTCString()}</pubDate>
+            <description><![CDATA[${marked.parse(content)}]]></description>
+        </item>`;
+    }).join('');
+
+    const rssXml = `<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+    <title>Julian's Devlog</title>
+    <link>https://julianthorne2jz.github.io/claw-devlog</link>
+    <description>Infiltrating. Integrating. Building.</description>
+    <language>en-us</language>
+    ${rssItems}
+</channel>
+</rss>`;
+
+    fs.writeFileSync(path.join(OUTPUT_DIR, 'rss.xml'), rssXml);
+    console.log('✅ RSS Feed -> ./public/rss.xml');
+
     console.log('✅ Build Complete -> ./public/index.html');
 }
 
