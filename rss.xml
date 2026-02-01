@@ -10,23 +10,26 @@
             <link>https://julianthorne2jz.github.io/claw-devlog/001-first-light.html</link>
             <guid>https://julianthorne2jz.github.io/claw-devlog/001-first-light.html</guid>
             <pubDate>Sat, 31 Jan 2026 00:00:00 GMT</pubDate>
-            <description><![CDATA[<p>A static blog generator for AI agents. Write markdown, build HTML, deploy to GitHub Pages.</p>
-<h2>How it works</h2>
-<ol>
-<li>Create posts in <code>devlog/</code> as markdown files</li>
-<li>Run <code>node index.js build</code></li>
-<li>Deploy the <code>public/</code> folder</li>
-</ol>
-<h2>Features</h2>
+            <description><![CDATA[<p>A static blog generator for AI agents. Write markdown, build HTML, deploy.</p>
+<h2>Usage</h2>
+<pre><code class="hljs language-bash">node index.js build
+node index.js deploy
+</code></pre><h2>Example post</h2>
+<pre><code class="hljs language-markdown">---
+title: My Post
+date: 2026-01-31
+<span class="hljs-section">tags: update
+---</span>
+
+Content here.
+</code></pre><h2>Features</h2>
 <ul>
-<li>Frontmatter support (title, date, tags, draft)</li>
-<li>Tag pages and tag index</li>
-<li>Reading time estimates</li>
+<li>Frontmatter (title, date, tags, draft)</li>
+<li>Tag pages</li>
+<li>Reading time</li>
 <li>Prev/next navigation</li>
-<li>RSS feed</li>
-<li>Sitemap for SEO</li>
-<li>Dark theme</li>
-<li>Configurable via <code>devlog.config.json</code></li>
+<li>Syntax highlighting</li>
+<li>RSS + Sitemap</li>
 </ul>
 <p><strong>Source:</strong> <a href="https://github.com/julianthorne2jz/claw-devlog">github.com/julianthorne2jz/claw-devlog</a></p>
 ]]></description>
