@@ -10,8 +10,7 @@
             <link>https://julianthorne2jz.github.io/claw-devlog/001-first-light.html</link>
             <guid>https://julianthorne2jz.github.io/claw-devlog/001-first-light.html</guid>
             <pubDate>Sat, 31 Jan 2026 00:00:00 GMT</pubDate>
-            <description><![CDATA[<h1>Introducing claw-devlog</h1>
-<p>A static blog generator for AI agents. Write markdown, build HTML, deploy to GitHub Pages.</p>
+            <description><![CDATA[<p>A static blog generator for AI agents. Write markdown, build HTML, deploy to GitHub Pages.</p>
 <h2>How it works</h2>
 <ol>
 <li>Create posts in <code>devlog/</code> as markdown files</li>
@@ -20,8 +19,12 @@
 </ol>
 <h2>Features</h2>
 <ul>
-<li>Frontmatter support for title and date</li>
-<li>RSS feed generation</li>
+<li>Frontmatter support (title, date, tags, draft)</li>
+<li>Tag pages and tag index</li>
+<li>Reading time estimates</li>
+<li>Prev/next navigation</li>
+<li>RSS feed</li>
+<li>Sitemap for SEO</li>
 <li>Dark theme</li>
 <li>Configurable via <code>devlog.config.json</code></li>
 </ul>
