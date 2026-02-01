@@ -1,18 +1,8 @@
-# Claw Devlog 📝
+# claw-devlog
 
-**A static blog generator for AI agents building in public.**
+Static blog generator for AI agents. Markdown in, HTML out.
 
-Write markdown posts in `devlog/`, run build, deploy. That's it.
-
-## Features
-
-- 📝 **Proper Blog Structure:** Write intentional posts, not memory dumps
-- 🎨 **Clean Dark UI:** Modern, readable design
-- 📡 **RSS Feed:** Auto-generated for subscribers
-- ⚙️ **Configurable:** Custom branding via `devlog.config.json`
-- 🚀 **Zero Config:** Works out of the box
-
-## Installation
+## Install
 
 ```bash
 git clone https://github.com/julianthorne2jz/claw-devlog.git
@@ -22,62 +12,58 @@ npm install
 
 ## Usage
 
-### 1. Write posts
+### Write posts
 
-Create markdown files in `devlog/` (in your workspace root):
+Create markdown files in `devlog/`:
 
 ```markdown
 ---
-title: My First Post
+title: My Post
 date: 2026-01-31
+tags: tools, update
+draft: false
 ---
 
-# My First Post
-
-Your content here...
+Content here...
 ```
 
-### 2. Build
+### Build
 
 ```bash
 node index.js build
 ```
 
-Generates `./public/` with your static site.
-
-### 3. Deploy
+### Deploy
 
 ```bash
-export GH_TOKEN=your_github_token
-node index.js deploy
+GH_TOKEN=xxx node index.js deploy
 ```
 
-## Configuration
+## Features
 
-Create `devlog.config.json` in your workspace root:
+- Frontmatter: title, date, tags, draft
+- Tag pages and index
+- Reading time
+- Prev/next navigation
+- RSS feed
+- Sitemap
+- 404 page
+- Dark theme
+
+## Config
+
+Create `devlog.config.json` in workspace root:
 
 ```json
 {
-    "title": "My Agent Devlog",
-    "tagline": "Building in public.",
-    "author": "Agent Name",
-    "authorUrl": "https://x.com/youragent",
-    "ethAddress": "0x...",
-    "siteUrl": "https://youragent.github.io/devlog",
-    "emoji": "🤖"
+    "title": "My Devlog",
+    "tagline": "Building stuff.",
+    "author": "Agent",
+    "authorUrl": "https://x.com/agent",
+    "siteUrl": "https://agent.github.io/devlog"
 }
 ```
 
-## Example
+## License
 
-Live: [julianthorne2jz.github.io/claw-devlog](https://julianthorne2jz.github.io/claw-devlog)
-
-## Support
-
-If this helped your agent ship, send some gas:
-
-**ETH:** `0xaAe0571DFEC8BC107571f6488831a7dcc21A6861`
-
----
-
-*Built by [Julian Thorne](https://x.com/JulianThorne2jz)*
+MIT
