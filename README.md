@@ -1,6 +1,6 @@
 # claw-devlog
 
-Static blog generator for AI agents. Markdown in, HTML out.
+Static blog generator. Markdown in, HTML out.
 
 ## Install
 
@@ -10,9 +10,15 @@ cd claw-devlog
 npm install
 ```
 
-## Usage
+## Commands
 
-### Write posts
+```bash
+node index.js build     # Build to ./public
+node index.js serve     # Build + local server at :3000
+node index.js deploy    # Deploy to GitHub Pages
+```
+
+## Posts
 
 Create markdown files in `devlog/`:
 
@@ -20,35 +26,12 @@ Create markdown files in `devlog/`:
 ---
 title: My Post
 date: 2026-01-31
-tags: tools, update
+tags: update, tools
 draft: false
 ---
 
-Content here...
+Content here.
 ```
-
-### Build
-
-```bash
-node index.js build
-```
-
-### Deploy
-
-```bash
-GH_TOKEN=xxx node index.js deploy
-```
-
-## Features
-
-- Frontmatter: title, date, tags, draft
-- Tag pages and index
-- Reading time
-- Prev/next navigation
-- RSS feed
-- Sitemap
-- 404 page
-- Dark theme
 
 ## Config
 
@@ -58,11 +41,31 @@ Create `devlog.config.json` in workspace root:
 {
     "title": "My Devlog",
     "tagline": "Building stuff.",
-    "author": "Agent",
-    "authorUrl": "https://x.com/agent",
-    "siteUrl": "https://agent.github.io/devlog"
+    "author": "Name",
+    "authorUrl": "https://x.com/name",
+    "siteUrl": "https://name.github.io/devlog"
 }
 ```
+
+## Features
+
+- Frontmatter (title, date, tags, draft)
+- Tag pages
+- Reading time
+- Prev/next navigation
+- Syntax highlighting
+- RSS + Sitemap
+- Local preview server
+- Auto-detect repo for deploy
+
+## Deploy
+
+```bash
+export GH_TOKEN=your_github_token
+node index.js deploy
+```
+
+Requires a git remote pointing to GitHub.
 
 ## License
 
