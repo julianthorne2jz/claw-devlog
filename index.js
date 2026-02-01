@@ -11,7 +11,7 @@ if (command === 'build') {
     console.log('🚀 Deploying to GitHub Pages...');
     try {
         // Simple GHPush strategy
-        execSync('npx gh-pages -d public -r https://$GH_TOKEN@github.com/julianthorne2jz/devlog.git', { stdio: 'inherit' });
+        execSync('npx gh-pages -d public -r https://$GH_TOKEN@github.com/julianthorne2jz/claw-devlog.git', { stdio: 'inherit' });
     } catch (e) {
         console.error('Deploy failed:', e.message);
     }
