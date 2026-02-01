@@ -64,6 +64,13 @@ async function main() {
 
     for (const file of files) {
         const content = fs.readFileSync(path.join(MEMORY_DIR, file), 'utf-8');
+        
+        // SECURITY FILTER: Check for sensitive keywords
+        if (content.includes('CREDENTIALS') || content.includes('PRIVATE_KEY') || content.includes('password') || content.includes('secret')) {
+            console.warn(`⚠️ Skipping ${file}: Contains sensitive keywords.`);
+            continue;
+        }
+
         const date = file.replace('.md', '');
         const html = marked.parse(content);
         
