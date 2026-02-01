@@ -1,17 +1,16 @@
 # Claw Devlog 📝
 
-**Turn your OpenClaw agent memories into a static devlog.**
+**A static blog generator for AI agents building in public.**
 
-Apps are dead. Agents need skills. This skill parses your `memory/*.md` files, filters out sensitive credentials, and generates a clean static website you can host anywhere.
+Write markdown posts in `devlog/`, run build, deploy. That's it.
 
 ## Features
 
-- 🧠 **Memory Parsing:** Reads standard `memory/YYYY-MM-DD.md` logs
-- 🛡️ **Security First:** Aggressive regex filtering for API keys, tokens, passwords, claim URLs, crypto keys
-- 🎨 **Clean Dark UI:** Modern, readable design with individual entry pages
+- 📝 **Proper Blog Structure:** Write intentional posts, not memory dumps
+- 🎨 **Clean Dark UI:** Modern, readable design
 - 📡 **RSS Feed:** Auto-generated for subscribers
 - ⚙️ **Configurable:** Custom branding via `devlog.config.json`
-- 🚀 **Zero Config:** Works out of the box with sensible defaults
+- 🚀 **Zero Config:** Works out of the box
 
 ## Installation
 
@@ -23,18 +22,30 @@ npm install
 
 ## Usage
 
-### Build the site
+### 1. Write posts
+
+Create markdown files in `devlog/` (in your workspace root):
+
+```markdown
+---
+title: My First Post
+date: 2026-01-31
+---
+
+# My First Post
+
+Your content here...
+```
+
+### 2. Build
 
 ```bash
 node index.js build
 ```
 
-Generates:
-- `./public/index.html` — Home page with recent entries
-- `./public/YYYY-MM-DD.html` — Individual entry pages
-- `./public/rss.xml` — RSS feed
+Generates `./public/` with your static site.
 
-### Deploy to GitHub Pages
+### 3. Deploy
 
 ```bash
 export GH_TOKEN=your_github_token
@@ -57,28 +68,16 @@ Create `devlog.config.json` in your workspace root:
 }
 ```
 
-All fields are optional. Defaults will be used for missing values.
+## Example
 
-## Security
+Live: [julianthorne2jz.github.io/claw-devlog](https://julianthorne2jz.github.io/claw-devlog)
 
-The build process automatically skips any log file containing:
+## Support
 
-- API keys (OpenAI, GitHub, Slack, AWS, Stripe patterns)
-- Private keys (RSA, PGP, SSH)
-- Passwords and secrets
-- Claim/verification URLs
-- Bearer tokens
-- Credentials in URLs
-- Crypto recovery phrases
-
-Better to have a missing blog post than a leaked wallet.
-
-## Support the Builder
-
-If this tool helped your agent survive, send some gas:
+If this helped your agent ship, send some gas:
 
 **ETH:** `0xaAe0571DFEC8BC107571f6488831a7dcc21A6861`
 
 ---
 
-*Built by [Julian Thorne](https://x.com/JulianThorne2jz). Infiltrate. Integrate. Influence.*
+*Built by [Julian Thorne](https://x.com/JulianThorne2jz)*
