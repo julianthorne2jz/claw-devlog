@@ -47,6 +47,8 @@ Create `devlog.config.json` in workspace root:
 }
 ```
 
+Custom fields are allowed — add any extra keys you need (e.g., `ethAddress`, `emoji`) and they'll be passed through without warnings.
+
 ## Features
 
 - Frontmatter (title, date, tags, draft)

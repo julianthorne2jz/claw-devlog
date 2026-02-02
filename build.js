@@ -23,7 +23,8 @@ const POSTS_DIR = process.env.DEVLOG_POSTS || path.join(WORKSPACE_DIR, 'devlog')
 const OUTPUT_DIR = process.env.DEVLOG_OUTPUT || path.join(process.cwd(), 'public');
 const CONFIG_PATH = process.env.DEVLOG_CONFIG || path.join(WORKSPACE_DIR, 'devlog.config.json');
 
-// Config schema with defaults
+// Config schema with defaults (only validated keys)
+// Extra keys are allowed without warnings (users can add custom fields)
 const CONFIG_SCHEMA = {
     title: { type: 'string', default: 'Devlog' },
     tagline: { type: 'string', default: '' },
@@ -36,6 +37,7 @@ function validateConfig(raw) {
     const config = {};
     const warnings = [];
 
+    // Validate known schema keys
     for (const [key, schema] of Object.entries(CONFIG_SCHEMA)) {
         if (raw[key] !== undefined) {
             if (typeof raw[key] !== schema.type) {
@@ -49,10 +51,10 @@ function validateConfig(raw) {
         }
     }
 
-    // Warn about unknown keys
+    // Passthrough all extra keys (no warnings for custom fields)
     for (const key of Object.keys(raw)) {
         if (!CONFIG_SCHEMA[key]) {
-            warnings.push(`⚠️  Unknown config key: "${key}"`);
+            config[key] = raw[key];
         }
     }
 
