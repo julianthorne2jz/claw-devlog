@@ -4,10 +4,37 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const args = process.argv.slice(2);
-const command = args[0];
+// --- Parse CLI args ---
+const rawArgs = process.argv.slice(2);
 
-const PUBLIC_DIR = path.join(process.cwd(), 'public');
+function parseArgs(args) {
+    const parsed = { _: [], config: null, posts: null, output: null };
+    for (let i = 0; i < args.length; i++) {
+        const arg = args[i];
+        if (arg === '--config' || arg === '-c') {
+            parsed.config = args[++i];
+        } else if (arg === '--posts' || arg === '-p') {
+            parsed.posts = args[++i];
+        } else if (arg === '--output' || arg === '-o') {
+            parsed.output = args[++i];
+        } else if (arg === '--help' || arg === '-h') {
+            parsed.help = true;
+        } else if (!arg.startsWith('-')) {
+            parsed._.push(arg);
+        }
+    }
+    return parsed;
+}
+
+const args = parseArgs(rawArgs);
+const command = args._[0];
+
+// Make paths available to build.js via env
+if (args.config) process.env.DEVLOG_CONFIG = path.resolve(args.config);
+if (args.posts) process.env.DEVLOG_POSTS = path.resolve(args.posts);
+if (args.output) process.env.DEVLOG_OUTPUT = path.resolve(args.output);
+
+const PUBLIC_DIR = args.output ? path.resolve(args.output) : path.join(process.cwd(), 'public');
 
 if (command === 'build') {
     require('./build.js');
@@ -99,15 +126,30 @@ if (command === 'build') {
         process.exit(1);
     }
 
-} else {
+} else if (command === 'help' || args.help || !command) {
     console.log(`claw-devlog - Static blog generator
 
 Usage:
-  node index.js build     Build the site to ./public
-  node index.js serve     Build and serve locally (port 3000)
-  node index.js deploy    Deploy to GitHub Pages (requires GH_TOKEN)
+  claw-devlog build       Build the site to ./public
+  claw-devlog serve       Build and serve locally (port 3000)
+  claw-devlog deploy      Deploy to GitHub Pages (requires GH_TOKEN)
+  claw-devlog help        Show this help message
 
 Options:
-  serve [port]            Use custom port (default: 3000)
+  -c, --config <path>     Custom config file (default: devlog.config.json)
+  -p, --posts <path>      Custom posts directory (default: devlog/)
+  -o, --output <path>     Custom output directory (default: public/)
+  -h, --help              Show this help message
+
+Examples:
+  claw-devlog build
+  claw-devlog build --config my-config.json
+  claw-devlog build -p ./my-posts -o ./dist
+  claw-devlog serve 8080
+  claw-devlog serve --posts ./entries
 `);
+} else {
+    console.error(`Unknown command: ${command}`);
+    console.error('Run "claw-devlog help" for usage.');
+    process.exit(1);
 }

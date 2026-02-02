@@ -19,24 +19,59 @@ const marked = new Marked(
 
 // --- Config ---
 const WORKSPACE_DIR = path.resolve(__dirname, '../../');
-const POSTS_DIR = path.join(WORKSPACE_DIR, 'devlog');
-const OUTPUT_DIR = path.join(process.cwd(), 'public');
-const CONFIG_PATH = path.join(WORKSPACE_DIR, 'devlog.config.json');
+const POSTS_DIR = process.env.DEVLOG_POSTS || path.join(WORKSPACE_DIR, 'devlog');
+const OUTPUT_DIR = process.env.DEVLOG_OUTPUT || path.join(process.cwd(), 'public');
+const CONFIG_PATH = process.env.DEVLOG_CONFIG || path.join(WORKSPACE_DIR, 'devlog.config.json');
 
-let config = {
-    title: "Devlog",
-    tagline: "",
-    author: "",
-    authorUrl: "",
-    siteUrl: ""
+// Config schema with defaults
+const CONFIG_SCHEMA = {
+    title: { type: 'string', default: 'Devlog' },
+    tagline: { type: 'string', default: '' },
+    author: { type: 'string', default: '' },
+    authorUrl: { type: 'string', default: '' },
+    siteUrl: { type: 'string', default: '' }
 };
 
+function validateConfig(raw) {
+    const config = {};
+    const warnings = [];
+
+    for (const [key, schema] of Object.entries(CONFIG_SCHEMA)) {
+        if (raw[key] !== undefined) {
+            if (typeof raw[key] !== schema.type) {
+                warnings.push(`⚠️  Config "${key}" should be ${schema.type}, got ${typeof raw[key]}`);
+                config[key] = schema.default;
+            } else {
+                config[key] = raw[key];
+            }
+        } else {
+            config[key] = schema.default;
+        }
+    }
+
+    // Warn about unknown keys
+    for (const key of Object.keys(raw)) {
+        if (!CONFIG_SCHEMA[key]) {
+            warnings.push(`⚠️  Unknown config key: "${key}"`);
+        }
+    }
+
+    return { config, warnings };
+}
+
+let config;
 if (fs.existsSync(CONFIG_PATH)) {
     try {
-        config = { ...config, ...JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8')) };
+        const raw = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
+        const result = validateConfig(raw);
+        config = result.config;
+        result.warnings.forEach(w => console.warn(w));
     } catch (e) {
-        console.warn('⚠️ Failed to parse config');
+        console.warn(`⚠️ Failed to parse config at ${CONFIG_PATH}: ${e.message}`);
+        config = Object.fromEntries(Object.entries(CONFIG_SCHEMA).map(([k, v]) => [k, v.default]));
     }
+} else {
+    config = Object.fromEntries(Object.entries(CONFIG_SCHEMA).map(([k, v]) => [k, v.default]));
 }
 
 // --- Utilities ---
