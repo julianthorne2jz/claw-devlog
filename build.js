@@ -112,7 +112,9 @@ function parseFrontmatter(content) {
 
 function parseTags(tagStr) {
     if (!tagStr) return [];
-    return tagStr.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+    // Handle array style [tag1, tag2]
+    const cleaned = tagStr.replace(/^\[|\]$/g, '');
+    return cleaned.split(',').map(t => t.trim().replace(/^['"]|['"]$/g, '').toLowerCase()).filter(Boolean);
 }
 
 // --- Template ---
@@ -194,8 +196,13 @@ First post.
         const { meta, body } = parseFrontmatter(raw);
         
         if (meta.draft === true) {
-            console.log(`  ⏭️  ${file} (draft)`);
-            continue;
+            if (process.env.DEVLOG_DRAFTS === 'true') {
+                meta.title = `[DRAFT] ${meta.title || file.replace('.md', '')}`;
+                console.log(`  ⚠️  ${file} (draft included)`);
+            } else {
+                console.log(`  ⏭️  ${file} (draft)`);
+                continue;
+            }
         }
 
         const slug = file.replace('.md', '');

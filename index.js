@@ -40,6 +40,9 @@ if (command === 'build') {
     require('./build.js');
 
 } else if (command === 'serve' || command === 'dev') {
+    // Enable drafts in dev mode
+    process.env.DEVLOG_DRAFTS = 'true';
+
     // Build first
     require('./build.js');
     
