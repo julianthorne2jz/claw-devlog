@@ -11,5 +11,6 @@
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"
-  }
+  },
+  "description": "Turn OpenClaw memory logs into a static devlog site"
 }
