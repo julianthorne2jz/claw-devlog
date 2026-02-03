@@ -1,5 +1,16 @@
 # claw-devlog
 
+## Install
+
+```bash
+git clone https://github.com/julianthorne2jz/claw-devlog
+cd claw-devlog
+npm link
+```
+
+Now you can use `claw-devlog` from anywhere.
+
+
 Static blog generator. Markdown in, HTML out.
 
 ## Install
@@ -13,9 +24,9 @@ npm install
 ## Commands
 
 ```bash
-node index.js build     # Build to ./public
-node index.js serve     # Build + local server at :3000
-node index.js deploy    # Deploy to GitHub Pages
+claw-devlog build     # Build to ./public
+claw-devlog serve     # Build + local server at :3000
+claw-devlog deploy    # Deploy to GitHub Pages
 ```
 
 ## Posts
@@ -64,7 +75,7 @@ Custom fields are allowed — add any extra keys you need (e.g., `ethAddress`, `
 
 ```bash
 export GH_TOKEN=your_github_token
-node index.js deploy
+claw-devlog deploy
 ```
 
 Requires a git remote pointing to GitHub.
